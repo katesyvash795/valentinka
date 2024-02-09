@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ModalContent,ModalOverlay,HeartsOverlay,Button } from './valentinkastyled';
-import valentinka from './valentinka.png'
+import { ModalContent, ModalOverlay, HeartsOverlay, Button } from './valentinkastyled';
+import valentinka from './valentinka.png';
+
 export const Valentinka = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hearts, setHearts] = useState([]);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 748);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 748);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     useEffect(() => {
         if (isOpen) {
-
             const newHearts = Array.from({ length: 10000 }, () => ({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight
@@ -19,7 +33,6 @@ export const Valentinka = () => {
     const openModal = () => {
         setIsOpen(true);
     };
-
 
     return (
         <div>
@@ -48,12 +61,12 @@ export const Valentinka = () => {
                         ))}
                     </HeartsOverlay>
                     <ModalContent>
-                    <img
-    src={valentinka}
-    alt="valentinka"
-    width="600"
-    height="500" />
-                       
+                        <img
+                            src={valentinka}
+                            alt="valentinka"
+                            width={isSmallScreen ? '300' : '600'} // Уменьшаем размер изображения для маленьких экранов
+                            height={isSmallScreen ? '250' : '500'} // Уменьшаем размер изображения для маленьких экранов
+                        />
                     </ModalContent>
                 </ModalOverlay>
             )}
