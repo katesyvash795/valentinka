@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Valentinka } from '../valentinka/valentinka';
-import { Button,Text,Image } from './teststyled';
+import { Button,Text,ImageContainer } from './teststyled';
 import Razvod from './razvod.jpg';
 export const TestС=()=>{
     const [isOpen, setIsOpen] = useState(false);
     const [isNo,setIsNo]= useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [returnHome, setReturnHome] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 748);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 748);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const handleButtonClick = () => {
         setIsOpen(true);
@@ -34,7 +47,17 @@ export const TestС=()=>{
         {isNo &&(
         <>
 <Text>Це була твоя остання можливість,<br/> але це кінець, геть звідси!</Text>
-<Image src={Razvod} alt='' width="300" height="300"/>
+<ImageContainer 
+                        marginLeft={isSmallScreen ? '120px' : '155px'}
+                         // Передаем значение marginLeft через props
+                    >
+                        <img 
+                            src={Razvod} 
+                            alt='' 
+                            width={isSmallScreen ? '150' : '300'} 
+                            height={isSmallScreen ? '150' : '300'} 
+                        />
+                    </ImageContainer>
  <Button onClick={handleReturnHomeClick} return={returnHome}>Змінити відповідь</Button> 
  </>
      )}

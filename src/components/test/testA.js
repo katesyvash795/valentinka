@@ -1,6 +1,5 @@
-
-import React, { useState } from 'react';
-import{Button, Text,Image} from './teststyled'
+import React, { useState, useEffect } from 'react';
+import{Button, Text,ImageContainer } from './teststyled'
 import { TestB } from './testB';
 import Test1 from './test1-1.webp'
 export const TestA=()=>{
@@ -9,7 +8,19 @@ export const TestA=()=>{
     const [isNo,setIsNo]= useState(false);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const [returnHome, setReturnHome] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 748);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 748);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     const handleButtonClick = () => {
         setIsOpen(true);
         setButtonsDisabled(true);
@@ -37,7 +48,16 @@ export const TestA=()=>{
 {isOpen && <TestB/>}
 {isNo &&(<>
 <Text>Ану йди звідси, розбійнику! <br/>Не для тебе моя троянда цвіла!</Text>
-<Image src={Test1} alt='' width="300" height="300"/>
+<ImageContainer 
+                        marginLeft={isSmallScreen ? '120px' : '155px'} // Передаем значение marginLeft через props
+                    >
+                        <img 
+                            src={Test1} 
+                            alt='' 
+                            width={isSmallScreen ? '150' : '300'} 
+                            height={isSmallScreen ? '150' : '300'} 
+                        />
+                    </ImageContainer>
  <Button onClick={handleReturnHomeClick} return={returnHome}>Змінити відповідь</Button> 
  </>
      )}

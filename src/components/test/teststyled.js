@@ -18,7 +18,9 @@ transition: background-color 0.3s ease;
 background-color: #0056b3;
 }
 `
-export const Image=styled.img`
+export const ImageContainer = styled.div`
 display:flex;
-margin:50px 0px 50px 155px;
-`
+margin-top:50px;
+margin-bottom:50px;
+    margin-left: ${props => props.marginLeft}; // Принимаем значение marginLeft из props
+`;
