@@ -54,7 +54,7 @@ export const Valentinka = () => {
                                 style={{ position: 'absolute', top: heart.y, left: heart.x }}
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.5 + (index * 0.02) }}
+                                transition={{ delay: index > 0 ? index * 0.02 : 0 }} 
                             >
                                 ❤️
                             </motion.p>
